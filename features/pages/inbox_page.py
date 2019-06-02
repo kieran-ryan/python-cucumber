@@ -14,6 +14,8 @@ class InboxPageElements(object):
     LOGOUT_LINK = 'https://accounts.google.com/Logout'
 
     # message elements
+    SELECT_MESSAGE = '#\:c8'
+    DELETE = '#\:4 > div > div.nH.aqK > div.Cq.aqL > div > div > div:nth-child(2) > div.T-I.J-J5-Ji.nX.T-I-ax7.T-I-Js-Gs.mA > div'
     COMPOSE = '//div[text()="Compose"]'
     RECIPIENT = '#\:87'
     SUBJECT = '#\:7p'
@@ -27,17 +29,22 @@ class InboxPage(Browser):
     def get_page_title(self):
         return self.driver.title
 
-    def compose_message(self):
+    def compose_message(self, recipient, subject, message):
         compose_button = WebDriverWait(self.driver, 1000).until(
             EC.presence_of_element_located((By.XPATH, InboxPageElements.COMPOSE))
         )
         compose_button.click()
 
-        self.driver.find_element_by_css_selector(InboxPageElements.RECIPIENT).send_keys('test')
-        self.driver.find_element_by_css_selector(InboxPageElements.SUBJECT).send_keys('Test Subject')
-        self.driver.find_element_by_css_selector(InboxPageElements.MESSAGE).send_keys('Test Message')
+        self.driver.find_element_by_css_selector(InboxPageElements.RECIPIENT).send_keys(recipient)
+        self.driver.find_element_by_css_selector(InboxPageElements.SUBJECT).send_keys(subject)
+        self.driver.find_element_by_css_selector(InboxPageElements.MESSAGE).send_keys(message)
+
+    def send_message(self):
         self.driver.find_element_by_css_selector(InboxPageElements.SEND).click()
 
+    def delete_message(self):
+        self.driver.find_element_by_css_selector(InboxPageElements.SELECT_MESSAGE).click()
+        self.driver.find_element_by_css_selector(InboxPageElements.DELETE).click()
 
     def logout(self):
         account_button = WebDriverWait(self.driver, 1000).until(

@@ -8,7 +8,15 @@ def step_impl(context):
     assert_equal(context.inbox_page.get_page_title(), 'Gmail')
 
 
-@when('user clicks on the compose button')
+@step('user composes a message with '
+      'recipient "{recipient}" and '
+      'subject "{subject}" and '
+      'message "{message}"')
+def step_impl(context, recipient, subject, message):
+    context.inbox_page.compose_message(recipient, subject, message)
+
+
+@step('user sends message')
 def step_impl(context):
-    context.inbox_page.compose_message()
+    context.inbox_page.send_message()
 
