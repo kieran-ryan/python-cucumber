@@ -46,4 +46,11 @@ def step_impl(context):
     assert_true(context.inbox_page.delete_success)
 
 
+@when('user searches for a message')
+def step_impl(context):
+    context.inbox_page.search_for_message()
 
+
+@then('the message results are filtered')
+def step_impl(context):
+    assert_true(context.inbox_page.filter_result)

@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -6,7 +7,6 @@ from features.browser import Browser
 
 
 class InboxPageElements(object):
-    # inbox page elements
 
     # navbar elements
     ACCOUNT_BUTTON = '#gb > div.gb_pd.gb_Fd.gb_xd.gb_5b > div.gb_wc.gb_Ka.gb_vc.gb_Dd > div > div.gb_Fa.gb_Qc.gb_bg.gb_f.gb_kf > div > a'
@@ -21,8 +21,11 @@ class InboxPageElements(object):
     RECIPIENT = '#\:87'
     SUBJECT = '#\:7p'
     MESSAGE = '#\:8u'
-    OPEN_MESSAGE = '#\:2d > span.bqe'
     SEND = '#\:7f'
+
+    # search and filter elements
+    SEARCH = '#aso_search_form_anchor > div > input'
+    RESULT = '16b19c03777f0f44'
 
 
 class InboxPage(Browser):
@@ -44,8 +47,15 @@ class InboxPage(Browser):
     def send_message(self):
         self.driver.find_element_by_css_selector(InboxPageElements.SEND).click()
 
-    def open_message(self):
-        self.driver.find_element_by_css_selector(InboxPageElements.OPEN_MESSAGE).click()
+    def search_for_message(self):
+        search = WebDriverWait(self.driver, 1000).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, InboxPageElements.SEARCH))
+        )
+        search.send_keys('Test Subject')
+        search.send_keys(Keys.ENTER)
+
+    def filter_result(self):
+        self.driver.find_element_by_id(InboxPageElements.RESULT)
 
     def delete_message(self):
         select_button = WebDriverWait(self.driver, 1000).until(
