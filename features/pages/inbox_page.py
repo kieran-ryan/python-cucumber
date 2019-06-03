@@ -45,7 +45,7 @@ class InboxPage(Browser):
 
     def assert_login_success(self):
         # if account button is present we have logged in
-        assert_true(self.driver.find_element_by_xpath(InboxPageElements.ACCOUNT_BUTTON))
+        assert_true(self.driver.find_element_by_css_selector(InboxPageElements.ACCOUNT_BUTTON))
 
     def get_page_title(self):
         return self.driver.title
