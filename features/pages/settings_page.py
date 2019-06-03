@@ -14,7 +14,7 @@ class SettingsPageElements(object):
     # folder elements
     ADD_FOLDER = '//*[contains(text(), "Create new label")]'
     FOLDER_SUBMIT = 'ok'
-    FOLDER_SUCCESS = 'https://mail.google.com/mail/u/0/#label/Test+Folder'
+    FOLDER_SUCCESS = '/html/body/div[7]/div[3]/div/div[1]/div[5]/div[1]/div/div[3]/div/div/div[2]/span/span'
     FOLDER_DELETE = '//*[@id=":89"]/div'
     FOLDER_DELETE_BUTTON = '/html/body/div[27]/div[3]/button[1]'
 
@@ -51,4 +51,4 @@ class SettingsPage(Browser):
         self.driver.find_element_by_xpath(SettingsPageElements.FOLDER_DELETE_BUTTON).click()
 
     def folder_success(self):
-        return self.driver.title
+        return self.driver.find_element_by_xpath(SettingsPageElements.FOLDER_SUCCESS)

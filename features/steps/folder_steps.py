@@ -1,5 +1,4 @@
 from behave import *
-from nose.tools import assert_equal, assert_true
 
 
 @step('user navigates to the settings page')
@@ -12,11 +11,11 @@ def step_impl(context, folder_name):
     context.settings_page.create_folder(folder_name)
 
 
-@then('a folder "{folder_name}" is successfully created')
-def step_impl(context, folder_name):
-    assert_equal(context.inbox_page.get_page_title(), folder_name)
+@when('user selects a message by message subject "{message_subject}" to move to "{folder_name}"')
+def step_impl(context, message_subject, folder_name):
+    context.inbox_page.move_message_to_folder(message_subject, folder_name)
 
 
-@given('user selects a message to move to "{folder_name}"')
-def step_impl(context, folder_name):
-    context.inbox_page.move_message_to_folder(folder_name)
+@then('a folder is successfully created')
+def step_impl(context):
+    context.settings_page.folder_success()
