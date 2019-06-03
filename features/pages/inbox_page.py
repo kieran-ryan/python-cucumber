@@ -22,7 +22,7 @@ class InboxPageElements(object):
     MESSAGE = '//div[@aria-label="Message Body"]'
     SEND = '//div[@aria-label="Send ‪(⌘Enter)‬"]'
     MOVE_TO = '//*[contains(text(), "Move to")]'
-    MESSAGE_SELECT = '//*[@span]' # '//*[contains(text(),"Test Subject")]'
+    MESSAGE_SELECT = '//div[@role="checkbox"]'  # '//*[contains(text(),"Test Subject")]'
 
     # search and filter elements
     SEARCH = '#aso_search_form_anchor > div > input'
@@ -44,7 +44,7 @@ class InboxPage(Browser):
 
     def select_message(self, message_subject):
         select_button = WebDriverWait(self.driver, 1000).until(
-            EC.presence_of_element_located((By.XPATH, '//span[contains(text(),' + message_subject + ')]'))
+            EC.presence_of_element_located((By.XPATH, InboxPageElements.MESSAGE_SELECT))  # '//span[contains(text(),' + message_subject + ')]'))
         )
         select_button.click()
 
@@ -72,6 +72,7 @@ class InboxPage(Browser):
         self.select_message(message_subject)
 
     def delete_message(self, message_subject):
+        WebDriverWait(self.driver, 1000)
         self.select_message(message_subject)
         self.driver.find_element_by_xpath(InboxPageElements.DELETE).click()
 
