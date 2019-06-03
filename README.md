@@ -26,9 +26,11 @@ Some packages such as selenium will likely need to be installed locally as part 
 
 #### To run all tests
 
-Navigate to `features` directory and run
+Run
 
 `$ behave`
+
+from project root.
 
 #### To run an individual test by feature tag
 
