@@ -16,6 +16,14 @@ Navigate to
 
 Add your Gmail username and password credentials.
 
+Edit `$ features/browser.py` 
+
+to point to 
+
+`$ home/full/path/to/python-cucumber/drivers/chromedriver`
+
+Some packages such as selenium will likely need to be installed locally as part of the project.
+
 #### To run all tests
 
 Navigate to `features` directory and run
@@ -48,6 +56,7 @@ Also, a LOT of custom xpath had to be written to handle the dynamic elements, an
 
 #### Other improvements
 * Configure logging
+* Configure multiple browser drivers such as geckodriver
 * Configure screen capture and reports
 * API tests to get around brittle xpath / custom xpath
 
