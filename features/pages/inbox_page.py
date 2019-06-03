@@ -1,3 +1,4 @@
+from nose.tools import assert_true
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -26,7 +27,7 @@ class InboxPageElements(object):
     # message options
     DELETE = '//*[@id=":4"]/div/div[1]/div[1]/div/div/div[2]/div[3]/div'
     # the notification that appears when a message is deleted
-    DELETE_SUCCESS = 'body > div:nth-child(18) > div.nH > div > div.nH.w-asV.aiw > div:nth-child(6) > div.no > div > div:nth-child(3) > div > div > div.vh > span'
+    DELETE_SUCCESS = '//span[contains(text(), "Conversation moved to Trash."]'
     MOVE_TO = '//*[@aria-label="Move to"]'
     MOVE_TO_MENU_OPEN = '//input[@aria-label="Move-to menu open"]'
     MESSAGE_SELECT = '//div[@role="checkbox"]'
@@ -41,6 +42,10 @@ class InboxPage(Browser):
 
     def navigate_to_inbox(self):
         self.driver.get(InboxPageElements.INBOX_PAGE)
+
+    def assert_login_success(self):
+        # if account button is present we have logged in
+        assert_true(self.driver.find_element_by_xpath(InboxPageElements.ACCOUNT_BUTTON))
 
     def get_page_title(self):
         return self.driver.title

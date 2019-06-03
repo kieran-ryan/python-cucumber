@@ -19,6 +19,7 @@ def step_impl(context, folder_name):
 @then('a folder is successfully created')
 def step_impl(context):
     context.settings_page.folder_success()
+    context.inbox_page.navigate_to_inbox()
 
 
 @then('the message is successfully moved to folder "{folder_name}"')
