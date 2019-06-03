@@ -9,20 +9,27 @@ from features.browser import Browser
 
 class InboxPageElements(object):
 
+    # inbox url
+    INBOX_PAGE = 'https://mail.google.com/mail/u/0/#inbox'
+
     # navbar elements
     ACCOUNT_BUTTON = '#gb > div.gb_pd.gb_Fd.gb_xd.gb_5b > div.gb_wc.gb_Ka.gb_vc.gb_Dd > div > div.gb_Fa.gb_Qc.gb_bg.gb_f.gb_kf > div > a'
     LOGOUT_BUTTON = '#gb_71'
 
-    # message elements
-    DELETE = '//*[@id=":4"]/div/div[1]/div[1]/div/div/div[2]/div[3]/div'
-    DELETE_SUCCESS = 'body > div:nth-child(18) > div.nH > div > div.nH.w-asV.aiw > div:nth-child(6) > div.no > div > div:nth-child(3) > div > div > div.vh > span'
+    # compose message elements
     COMPOSE = '//div[text()="Compose"]'
     RECIPIENT = '//textarea[@aria-label="To"]'
     SUBJECT = '//input[@aria-label="Subject"]'
     MESSAGE = '//div[@aria-label="Message Body"]'
     SEND = '//div[@aria-label="Send ‪(⌘Enter)‬"]'
-    MOVE_TO = '//*[contains(text(), "Move to")]'
-    MESSAGE_SELECT = '//div[@role="checkbox"]'  # '//*[contains(text(),"Test Subject")]'
+
+    # message options
+    DELETE = '//*[@id=":4"]/div/div[1]/div[1]/div/div/div[2]/div[3]/div'
+    # the notification that appears when a message is deleted
+    DELETE_SUCCESS = 'body > div:nth-child(18) > div.nH > div > div.nH.w-asV.aiw > div:nth-child(6) > div.no > div > div:nth-child(3) > div > div > div.vh > span'
+    MOVE_TO = '//*[@aria-label="Move to"]'
+    MOVE_TO_MENU_OPEN = '//input[@aria-label="Move-to menu open"]'
+    MESSAGE_SELECT = '//div[@role="checkbox"]'
 
     # search and filter elements
     SEARCH = '#aso_search_form_anchor > div > input'
@@ -32,6 +39,9 @@ class InboxPageElements(object):
 class InboxPage(Browser):
     # inbox actions
 
+    def navigate_to_inbox(self):
+        self.driver.get(InboxPageElements.INBOX_PAGE)
+
     def get_page_title(self):
         return self.driver.title
 
@@ -40,11 +50,10 @@ class InboxPage(Browser):
             EC.presence_of_element_located((By.XPATH, InboxPageElements.RESULT))
         )
         view_message_link.click()
-        # self.driver.find_element_by_xpath(InboxPageElements.RESULT).click()
 
-    def select_message(self, message_subject):
+    def select_message(self):
         select_button = WebDriverWait(self.driver, 1000).until(
-            EC.presence_of_element_located((By.XPATH, InboxPageElements.MESSAGE_SELECT))  # '//span[contains(text(),' + message_subject + ')]'))
+            EC.presence_of_element_located((By.XPATH, InboxPageElements.MESSAGE_SELECT))
         )
         select_button.click()
 
@@ -68,24 +77,36 @@ class InboxPage(Browser):
         search.send_keys(search_term)
         search.send_keys(Keys.ENTER)
 
-    def filter_result(self, message_subject):
-        self.select_message(message_subject)
+    def filter_result(self):
+        self.select_message()
 
-    def delete_message(self, message_subject):
+    def delete_message(self):
         WebDriverWait(self.driver, 1000)
-        self.select_message(message_subject)
+        self.select_message()
         self.driver.find_element_by_xpath(InboxPageElements.DELETE).click()
 
     def delete_success(self):
         self.driver.find_element_by_css_selector(InboxPageElements.DELETE_SUCCESS)
 
-    def move_message_to_folder(self, message_subject, folder_name):
-        self.select_message(message_subject)
-        self.driver.find_element_by_xpath(InboxPageElements.MOVE_TO).click()
+    def move_message_to_folder(self, folder_name):
+        WebDriverWait(self.driver, 1000)
+
+        self.select_message()
+
+        wait_for_folder_dropdown = WebDriverWait(self.driver, 1000).until(
+            EC.presence_of_element_located((By.XPATH, InboxPageElements.MOVE_TO))
+        )
+        wait_for_folder_dropdown.click()
 
         actions = ActionChains(self.driver)
         actions.send_keys(folder_name)
         actions.perform()
+
+        self.driver.find_element_by_xpath('//span[contains(text(), "Test Folder"]').click()
+
+    def assert_message_moved(self, folder_name):
+        self.driver.find_element_by_xpath('//span[@title="' + folder_name + '"]').click()
+        self.delete_message()
 
     def logout(self):
         account_button = WebDriverWait(self.driver, 1000).until(

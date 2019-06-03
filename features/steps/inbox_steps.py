@@ -56,8 +56,3 @@ def step_impl(context, search_term):
 @then('the message results are filtered by search term "{message_subject}"')
 def step_impl(context, message_subject):
     context.inbox_page.filter_result(message_subject)
-
-
-@then('the message is successfully moved to folder "{folder_name}"')
-def step_impl(context, folder_name):
-    context.inbox_page.assert_message_moved(folder_name)
