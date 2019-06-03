@@ -1,4 +1,4 @@
-Feature: Folders
+Feature: Create Folder
 
     @new_folder
     Scenario: Log in to Gmail and add a folder from the settings page
