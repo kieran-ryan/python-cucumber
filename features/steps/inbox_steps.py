@@ -1,5 +1,5 @@
 from behave import *
-from nose.tools import assert_equal, assert_true
+from nose.tools import assert_true
 
 
 # if title is 'Inbox' then user is on the inbox page

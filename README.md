@@ -43,6 +43,10 @@ Also, a LOT of custom xpath had to be written to handle the dynamic elements, an
 
 *Requires message parameters to be set in `feature` file
 
+#### Other improvements
+* Configure logging
+* Configure screen capture and reports
+* API tests to get around brittle xpath / custom xpath
 
 ### About the Behave Framework
 
