@@ -17,6 +17,9 @@ Navigate to
 Add your Gmail username and password credentials.
 
 #### To run all tests
+
+Navigate to `features` directory and run
+
 `$ behave`
 
 #### To run an individual test by feature tag
