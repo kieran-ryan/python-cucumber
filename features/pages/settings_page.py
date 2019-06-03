@@ -17,7 +17,6 @@ class SettingsPageElements(object):
     FOLDER_SUCCESS = 'https://mail.google.com/mail/u/0/#label/Test+Folder'
     FOLDER_DELETE = '//*[@id=":89"]/div'
     FOLDER_DELETE_BUTTON = '/html/body/div[27]/div[3]/button[1]'
-    MOVE_TO = '//*[contains(text(), "Move to"'
 
     # settings elements
     SETTINGS_TITLE = '#\:4 > div > div.nH.qZ.G-atb > div.du > h2'
@@ -32,7 +31,7 @@ class SettingsPage(Browser):
         )
         self.driver.get(SettingsPageElements.SETTINGS_LINK)
 
-    def create_folder(self, name):
+    def create_folder(self, folder_name):
         WebDriverWait(self.driver, 5000).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, SettingsPageElements.SETTINGS_TITLE))
         )
@@ -41,8 +40,9 @@ class SettingsPage(Browser):
         create_folder_button.click()
 
         actions = ActionChains(self.driver)
-        actions.send_keys(name)
-        # actions.perform()
+        actions.send_keys(folder_name)
+        actions.perform()
+        # actions.send_keys(Keys.ENTER)
 
         self.driver.find_element_by_name(SettingsPageElements.FOLDER_SUBMIT).click()
 
@@ -51,6 +51,4 @@ class SettingsPage(Browser):
         self.driver.find_element_by_xpath(SettingsPageElements.FOLDER_DELETE_BUTTON).click()
 
     def folder_success(self):
-        self.driver.get(SettingsPageElements.FOLDER_SUCCESS)
-        # self.driver.find_element_by_css_selector(SettingsPageElements.FOLDER_SUCCESS)
-
+        return self.driver.title

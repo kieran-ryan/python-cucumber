@@ -4,7 +4,7 @@ from nose.tools import assert_equal, assert_true
 
 # navigate to gmail using the url set in login_page.py
 # if title is 'Gmail' then navigation was successful
-@given('user is on the login screen')
+@given('user is on the login page')
 def step_impl(context):
     context.login_page.navigate_to_gmail()
     assert_equal(context.login_page.get_page_title(), 'Gmail')

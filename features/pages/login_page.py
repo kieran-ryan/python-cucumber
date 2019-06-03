@@ -12,7 +12,7 @@ class LoginPageElements(object):
     USER_SUBMIT = '#identifierNext > content > span'
     PASS = '#password > div.aCsJod.oJeWuf > div > div.Xb9hP > input'
     SUBMIT = '#passwordNext > content > span'
-    ERROR = '#password > div.LXRPh > div.dEOOab.RxsGPe'
+    LOGIN_ERROR = '#password > div.LXRPh > div.dEOOab.RxsGPe'
 
 
 class LoginPage(Browser):
@@ -26,7 +26,7 @@ class LoginPage(Browser):
         return self.driver.title
 
     def get_login_error(self):
-        return self.driver.find_element_by_css_selector(LoginPageElements.ERROR)
+        return self.driver.find_element_by_css_selector(LoginPageElements.LOGIN_ERROR)
 
     def set_username(self, username):
         user_name_field = self.driver.find_element_by_id(LoginPageElements.USER)
@@ -34,7 +34,7 @@ class LoginPage(Browser):
         self.driver.find_element_by_css_selector(LoginPageElements.USER_SUBMIT).click()
 
     def set_password(self, password):
-        password_field = WebDriverWait(self.driver, 1000).until(
+        password_field = WebDriverWait(self.driver, 5000).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, LoginPageElements.PASS))
         )
         password_field.send_keys(password)

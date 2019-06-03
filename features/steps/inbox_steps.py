@@ -8,7 +8,7 @@ def step_impl(context):
     assert_equal(context.inbox_page.get_page_title(), 'Gmail')
 
 
-# execute login steps again
+# execute login steps to get to inbox page
 @given('user successfully logs in with valid '
        'username "{username}" and '
        'valid password "{password}" and '
@@ -46,11 +46,11 @@ def step_impl(context):
     assert_true(context.inbox_page.delete_success)
 
 
-@when('user searches for a message')
-def step_impl(context):
-    context.inbox_page.search_for_message()
+@when('user searches for a message with search term "{search_term}"')
+def step_impl(context, search_term):
+    context.inbox_page.search_for_message(search_term)
 
 
 @then('the message results are filtered')
 def step_impl(context):
-    assert_true(context.inbox_page.filter_result)
+    assert_true(context.inbox_page.filter_result())
