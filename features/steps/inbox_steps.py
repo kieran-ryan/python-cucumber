@@ -21,7 +21,8 @@ def step_impl(context, username, password):
 @step('user composes a message with '
       'recipient "{recipient}" and '
       'subject "{subject}" and '
-      'message "{message}"')
+      'message "{message}"'
+      )
 def step_impl(context, recipient, subject, message):
     context.inbox_page.compose_message(recipient, subject, message)
 
@@ -33,12 +34,12 @@ def step_impl(context):
 
 @step('the message is sent successfully')
 def step_impl(context):
-    context.inbox_page.open_message()
+    context.inbox_page.message_sent_assert()
 
 
-@when('user deletes the message')
-def step_impl(context):
-    context.inbox_page.delete_message()
+@when('user deletes the message by message subject "{message_subject}"')
+def step_impl(context, message_subject):
+    context.inbox_page.delete_message(message_subject)
 
 
 @then('the message is successfully deleted')
@@ -51,6 +52,6 @@ def step_impl(context, search_term):
     context.inbox_page.search_for_message(search_term)
 
 
-@then('the message results are filtered')
-def step_impl(context):
-    assert_true(context.inbox_page.filter_result())
+@then('the message results are filtered by search term "{message_subject}"')
+def step_impl(context, message_subject):
+    context.inbox_page.filter_result(message_subject)
