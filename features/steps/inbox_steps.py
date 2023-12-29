@@ -14,9 +14,9 @@ def step_impl(context):
 
 
 @step('user composes a message with '
-      'recipient "{recipient}" and '
-      'subject "{subject}" and '
-      'message "{message}"'
+      'recipient "{}" and '
+      'subject "{}" and '
+      'message "{}"'
       )
 def step_impl(context, recipient, subject, message):
     context.inbox_page.compose_message(recipient, subject, message)
@@ -42,7 +42,7 @@ def step_impl(context):
     assert_true(context.inbox_page.delete_success)
 
 
-@when('user searches for a message with search term "{search_term}"')
+@when('user searches for a message with search term "{}"')
 def step_impl(context, search_term):
     context.inbox_page.search_for_message(search_term)
 

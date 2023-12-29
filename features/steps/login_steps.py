@@ -9,12 +9,12 @@ def step_impl(context):
     context.login_page.navigate_to_gmail()
 
 # valid username and valid password parameters are set in login.feature
-@when('user enters valid username "{username}" and valid password "{password}"')
+@when('user enters valid username "{}" and valid password "{}"')
 def step_impl(context, username, password):
     context.login_page.login(username, password)
 
 # valid username and invalid password parameters are set in login.feature
-@when('user enters valid username "{username}" and invalid password "{password}"')
+@when('user enters valid username "{}" and invalid password "{}"')
 def step_impl(context, username, password):
     context.login_page.login(username, password)
 
